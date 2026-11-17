@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraBurn AI — Neural Diagnostic & Tissue Segmentation Console</title>
+  
+  <!-- Typography Fonts: Plus Jakarta Sans, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Awwwards-Grade Design System -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='awwwards.css') }}">
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+          </svg>
+        </div>
+        <div class="brand-title">
+          AuraBurn <span class="brand-tag">NEURAL 2.4</span>
+        </div>
+      </a>
+
+      <div class="header-meta">
+        <div class="status-pill">
+          <div class="beacon"></div>
+          <span>NEURAL CORE ACTIVE</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    <!-- Hero Header -->
+    <section class="hero-section">
+      <div class="hero-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        Deep Learning Vision & Clinical Diagnostics
+      </div>
+      <h1 class="hero-title">
+        Klasifikasi & Segmentasi <br>
+        <span class="hero-gradient">Luka Bakar Berbasis AI</span>
+      </h1>
+      <p class="hero-desc">
+        Diagnosis derajat luka bakar komprehensif dalam hitungan detik. Menggabungkan deteksi kontur Computer Vision (HSV & Otsu Thresholding) dengan klasifikasi probabilitas Convolutional Neural Network (CNN).
+      </p>
+
+      <div class="metrics-strip">
+        <div class="metric-item">
+          <span class="metric-val">~180ms</span>
+          <span class="metric-lbl">Inference Latency</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-val">4 Grades</span>
+          <span class="metric-lbl">Clinical Classes</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-val">19.0M</span>
+          <span class="metric-lbl">CNN Parameters</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-val">Otsu CV</span>
+          <span class="metric-lbl">Mask Segmentation</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Clinical Studio -->
+    <div class="studio-grid">
+      <!-- Left Panel: Upload & Multi-View Inspector -->
+      <div class="glass-panel left-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <h2 class="panel-title">Visual Inspector & Input</h2>
+          </div>
+          <span class="panel-badge">REAL-TIME PIPELINE</span>
+        </div>
+
+        <!-- Drag & Drop Zone -->
+        <div class="dropzone-container" id="dropzone">
+          <input type="file" id="file-input" name="file" accept="image/png, image/jpeg, image/jpg, image/webp">
+          <div class="dropzone-content">
+            <div class="upload-icon-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </div>
+            <div>
+              <p class="dropzone-prompt">Tarik & Letakkan Foto Luka Bakar</p>
+              <p class="dropzone-sub">atau klik untuk memilih file (.PNG, .JPG, .JPEG, .WEBP)</p>
+            </div>
+            <button type="button" class="upload-cta-btn">Pilih Gambar</button>
+          </div>
+        </div>
+
+        <!-- 1-Click Clinical Sample Cases -->
+        <div class="sample-cases-block">
+          <div class="sample-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Uji Coba Cepat (Sampel Kasus Klinis Tervalidasi)
+          </div>
+          <div class="sample-grid">
+            {% for sample in samples %}
+            <div class="sample-card" data-filename="{{ sample.filename }}" title="Klik untuk menguji kasus {{ sample.title }}">
+              <img src="{{ url_for('uploaded_file', filename=sample.filename) }}" alt="{{ sample.title }}" class="sample-thumb">
+              <div class="sample-info">
+                <span class="sample-title" style="color: {{ sample.color }};">{{ sample.title }}</span>
+                <span class="sample-sub">{{ sample.subtitle }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Multi-View Image Inspector (Muncul Saat Ada Gambar) -->
+        <div class="viewport-card" id="viewport-card">
+          <div class="view-tabs">
+            <button type="button" class="view-tab-btn active" data-mode="original">Foto Asli</button>
+            <button type="button" class="view-tab-btn" data-mode="mask">Masker Segmentasi (Otsu)</button>
+            <button type="button" class="view-tab-btn" data-mode="overlay">Overlay Kontur Luka</button>
+          </div>
+
+          <div class="image-canvas-wrapper">
+            <!-- Laser Scanline Animation -->
+            <div class="scanner-sweep" id="scanner-sweep"></div>
+            <img src="#" alt="Preview" class="viewport-img" id="viewport-img">
+            <div class="hud-meta-overlay">
+              <span id="hud-filename">img_input</span>
+              <span id="hud-dimensions">150 x 150 px</span>
+              <span id="hud-timestamp">--:--:--</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Deep Neural Assessment Console -->
+      <div class="glass-panel right-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <h2 class="panel-title">Diagnostic Assessment</h2>
+          </div>
+          <span class="panel-badge">CNN v2.4 + PROTOCOL</span>
+        </div>
+
+        <!-- Empty State (Sebelum Upload) -->
+        <div class="empty-state-console" id="empty-console">
+          <div class="empty-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+          <h3 class="empty-title">Menunggu Citra Masukan</h3>
+          <p class="empty-desc">
+            Unggah foto luka bakar atau klik salah satu sampel kasus klinis di sebelah kiri untuk melihat hasil segmentasi dan diagnosis secara instan.
+          </p>
+        </div>
+
+        <!-- Active Results Console (Tampil Saat Gambar Dianalisis) -->
+        <div class="active-results-console" id="active-console">
+          <!-- Primary Diagnosis Banner -->
+          <div class="diagnosis-banner" id="diagnosis-banner">
+            <div class="diagnosis-header">
+              <span class="grade-badge" id="res-grade-badge">GRADE --</span>
+              <span class="severity-pill" id="res-severity-pill">Severity: Normal</span>
+            </div>
+            <h3 class="diagnosis-title" id="res-title">-- Degree Burn</h3>
+            <p class="diagnosis-depth" id="res-depth">Kedalaman jaringan: --</p>
+          </div>
+
+          <!-- Key Metrics Bento Grid -->
+          <div class="diagnostic-metrics-grid">
+            <div class="d-metric-card">
+              <div class="d-metric-head">
+                <span class="d-metric-lbl">Primary Confidence</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div class="d-metric-num" id="res-confidence-val">0.0%</div>
+            </div>
+
+            <div class="d-metric-card">
+              <div class="d-metric-head">
+                <span class="d-metric-lbl">Est. Affected Area</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+              </div>
+              <div class="d-metric-num" id="res-burnarea-val">0.0%</div>
+            </div>
+          </div>
+
+          <!-- Probability Distribution (4 Classes) -->
+          <div class="probabilities-section">
+            <div class="section-label-mono">
+              <span>Distribusi Probabilitas Kelas</span>
+              <span>4-CLASS SOFTMAX</span>
+            </div>
+            <div id="probabilities-container">
+              <!-- Dynamically populated via app.js -->
+            </div>
+          </div>
+
+          <!-- Clinical Protocol & First Aid Box -->
+          <div class="protocol-box">
+            <h4 class="protocol-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+              </svg>
+              Panduan Pertolongan Pertama (First Aid Protocol)
+            </h4>
+            <ul class="protocol-list" id="protocol-list">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+
+          <!-- Actions Bar -->
+          <div class="console-actions-bar">
+            <button type="button" class="btn-secondary" id="reset-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+              Periksa Gambar Lain
+            </button>
+            <button type="button" class="btn-secondary" id="print-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              Cetak Ringkasan Klinis
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clinical Reference & Severity Guide (Bento Cards) -->
+    <section class="reference-section">
+      <div class="section-head">
+        <h2 class="section-head-title">Panduan Klasifikasi Derajat Luka Bakar</h2>
+        <p class="section-head-sub">Standar klasifikasi medis berdasarkan kedalaman kerusakan struktur jaringan kulit.</p>
+      </div>
+
+      <div class="reference-grid">
+        <!-- Grade 1 -->
+        <div class="ref-card">
+          <span class="ref-card-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">GRADE 1 • SUPERFICIAL</span>
+          <h3 class="ref-card-title">Derajat 1 (Superfisial)</h3>
+          <span class="ref-card-depth">Kedalaman: Epidermis</span>
+          <p class="ref-card-desc">
+            Hanya mengenai lapisan kulit terluar. Ditandai dengan kemerahan (*erythema*), kulit kering, sedikit nyeri/perih, tanpa lepuhan. Sembuh dalam 3-6 hari.
+          </p>
+        </div>
+
+        <!-- Grade 2 -->
+        <div class="ref-card">
+          <span class="ref-card-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">GRADE 2 • PARTIAL THICKNESS</span>
+          <h3 class="ref-card-title">Derajat 2 (Sebagian Dermis)</h3>
+          <span class="ref-card-depth">Kedalaman: Epidermis & Dermis</span>
+          <p class="ref-card-desc">
+            Menembus hingga lapisan dermis. Muncul lepuhan (*blisters/bula*), bengkak, dan nyeri hebat. Memerlukan penanganan steril agar terhindar dari infeksi. Sembuh dalam 2-3 minggu.
+          </p>
+        </div>
+
+        <!-- Grade 3 -->
+        <div class="ref-card">
+          <span class="ref-card-badge" style="background: rgba(244, 63, 94, 0.15); color: #f43f5e;">GRADE 3 • FULL THICKNESS</span>
+          <h3 class="ref-card-title">Derajat 3 (Ketebalan Penuh)</h3>
+          <span class="ref-card-depth">Kedalaman: Dermis & Subkutan</span>
+          <p class="ref-card-desc">
+            Seluruh ketebalan kulit dan folikel rambut musnah. Jaringan tampak putih lilin, cokelat kering, atau kehitaman. Sering kali tidak terasa sakit karena ujung saraf telah terbakar. Wajib penanganan bedah.
+          </p>
+        </div>
+
+        <!-- Grade 4 -->
+        <div class="ref-card">
+          <span class="ref-card-badge" style="background: rgba(168, 85, 247, 0.15); color: #a855f7;">GRADE 4 • SUBDERMAL</span>
+          <h3 class="ref-card-title">Derajat 4 (Subdermal / Dalam)</h3>
+          <span class="ref-card-depth">Kedalaman: Otot & Tulang</span>
+          <p class="ref-card-desc">
+            Kerusakan paling parah menembus jaringan lemak subkutan, fasia, otot, hingga tulang. Kulit tampak hangus (*charred*). Memerlukan penanganan darurat di unit luka bakar intensif (*burn center*).
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p class="footer-disclaimer">
+      <strong>Catatan Medis Penting:</strong> Sistem kecerdasan buatan ini ditujukan sebagai alat bantu triase awal dan penelitian klasifikasi citra. Sistem ini tidak menggantikan diagnosis klinis definitif dari dokter spesialis bedah plastik atau tenaga medis profesional. Pada kondisi darurat, segera hubungi layanan ambulans (118/119) atau bawa pasien ke IGD terdekat.
+    </p>
+    <p>© 2026 AuraBurn Neural Diagnostic System • Built with TensorFlow & OpenCV</p>
+  </footer>
+
+  <!-- Application Logic -->
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+
+  <!-- SSR Hydration jika ada submit non-AJAX -->
+  {% if ssr_result %}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const ssrData = {{ ssr_result | tojson }};
+      if (ssrData && window.renderAnalysisResults) {
+        window.renderAnalysisResults({
+          status: 'success',
+          filename: ssrData.filename,
+          original_url: ssrData.original_url,
+          mask_url: ssrData.mask_url,
+          overlay_url: ssrData.overlay_url,
+          segmentation: ssrData.segmentation,
+          classification: ssrData.classification
+        });
+      }
+    });
+  </script>
+  {% endif %}
+</body>
+</html>

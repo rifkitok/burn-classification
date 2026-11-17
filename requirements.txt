@@ -1,0 +1,14 @@
+# Core Deep Learning & Machine Learning
+tensorflow>=2.15.0
+keras>=3.0.0
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Computer Vision & Image Processing
+opencv-python>=4.8.0
+Pillow>=9.0.0
+matplotlib>=3.7.0
+
+# Web Application
+Flask>=3.0.0
+Werkzeug>=3.0.0

@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# VS Code & IDEs
+.vscode/
+.idea/
+tempCodeRunnerFile.py
+*.swp
+*~
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Output artifacts
+segmented_result.jpg
+prediction_plot.png
+
+# Model weights (>100MB melebihi batas GitHub)
+*.h5
+*.keras
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# User uploads non-sample
+flask web/uploads/*
+!flask web/uploads/3.jpg
+!flask web/uploads/google_0031.jpg
+!flask web/uploads/img549.jpg
+!flask web/uploads/google_0111.jpg
+!flask web/uploads/.gitkeep
+
+# Pastikan aset statis UI tidak ter-ignore
+!flask web/static/**
