@@ -35,8 +35,7 @@ burn classification/
 ├── README.md                           # Dokumentasi komprehensif proyek
 ├── requirements.txt                    # Daftar dependensi Python
 ├── .gitignore                          # Daftar file yang diabaikan oleh Git
-├── preporc.py                          # Skrip segmentasi kulit & pra-pemrosesan citra
-├── preprocess.py                       # Symlink alias untuk preporc.py
+├── preprocess.py                       # Skrip segmentasi kulit & pra-pemrosesan citra (OpenCV)
 ├── run.py                              # Skrip CLI inferensi cepat untuk menguji sebuah gambar
 ├── train.py                            # Skrip pelatihan model CNN (TensorFlow/Keras)
 └── flask web/                          # Direktori aplikasi web berbasis Flask
@@ -84,7 +83,7 @@ Skrip untuk melatih model klasifikasi luka bakar dari dataset gambar.
 - Menyimpan bobot model ke file `burn_classification_model_fix.h5`.
 - Memiliki modul eksperimen regresi berbasis `RegressionDataGenerator` dan `label.csv` jika data skor regresi tersedia.
 
-### 2. `preporc.py` (atau `preprocess.py`)
+### 2. `preprocess.py`
 Skrip pra-pemrosesan citra luka menggunakan pustaka OpenCV:
 - Mengubah ukuran citra input menjadi `256 x 256`.
 - Menerapkan segmentasi warna kulit berbasis ruang warna **HSV** (`lower_skin = [0, 48, 80]`, `upper_skin = [20, 255, 255]`).
@@ -202,8 +201,6 @@ python run.py "flask web/uploads/3.jpg"
 ### 3. Pra-pemrosesan & Segmentasi Citra
 Untuk melihat visualisasi segmentasi area luka bakar menggunakan OpenCV:
 ```bash
-python preporc.py "flask web/uploads/img25.jpg"
-# atau menggunakan alias:
 python preprocess.py "flask web/uploads/img25.jpg"
 ```
 
